@@ -367,11 +367,11 @@ def dm2skin_doMushOptimization(mesh, mushMesh=None, maxInfluences=4, progressBar
         startValList = [] # initial values
         for j in range(len(vertInfluences)):
             boundsList.append((0, 1)) # establish the limit of values asigned.
-            InitialWeightsValues.append(1.0 / len(vertInfluences)) # just divide equaly the coeficients of normalize weigts value
+            initialWeightsValues.append(1.0 / len(vertInfluences)) # just divide equaly the coeficients of normalize weigts value
 
         cons = ({'type': 'eq', 'fun': dm2skin_normalizeWeightsConstraint})
         result = minimize(dm2skin_computeSourceMushDistance, 
-                          InitialWeightsValues, # X0
+                          initialWeightsValues, # X0
                           method='SLSQP', 
                           args=(mushMesh, mesh, i, bindVertList, mushedVertList, currentInvMatrices, currentTransMatrices, vertInfluences), 
                           constraints=cons, 
