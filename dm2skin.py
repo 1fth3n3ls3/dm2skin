@@ -260,7 +260,7 @@ def dm2skin_getNeighbouringJoints(joint, vertexString=None, cluster=None, influe
     ascendingList = [entry[0] for entry in measureList[0:influences - subtract]]
     return resultList + ascendingList
 
-
+#                                               (mushMesh,  mesh,      i,     bindVertList, mushedVertList, currentInvMatrices, currentTransMatrices, vertInfluences)
 def dm2skin_computeSourceMushDistance(weights, sourceMesh, targetMesh, index, bindVerts, mushVerts, bindInvMatrices, transMatrices, joints):
     """Computes the distance between a vertex in the source mesh and target mesh. Ultimately this
     distance is what we use scipy to minimize."""
@@ -367,11 +367,11 @@ def dm2skin_doMushOptimization(mesh, mushMesh=None, maxInfluences=4, progressBar
         startValList = [] # initial values
         for j in range(len(vertInfluences)):
             boundsList.append((0, 1)) # establish the limit of values asigned.
-            startValList.append(1.0 / len(vertInfluences)) # just divide equaly the coeficients of normalize weigts value
+            InitialWeightsValues.append(1.0 / len(vertInfluences)) # just divide equaly the coeficients of normalize weigts value
 
         cons = ({'type': 'eq', 'fun': dm2skin_normalizeWeightsConstraint})
         result = minimize(dm2skin_computeSourceMushDistance, 
-                          startValList, 
+                          InitialWeightsValues, # X0
                           method='SLSQP', 
                           args=(mushMesh, mesh, i, bindVertList, mushedVertList, currentInvMatrices, currentTransMatrices, vertInfluences), 
                           constraints=cons, 
